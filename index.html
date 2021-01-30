@@ -12,7 +12,7 @@
     <!-- Stylesheet -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -33,7 +33,9 @@
 
         <div class="booking-content">
             <h1>Cruise Queen</h1>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book./p>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                scrambled it to make a type specimen book./p>
         </div>
 
 
@@ -50,7 +52,7 @@
             <div class="inputs">
                 <div class="input-group">
                     <label" for="">Departure</label>
-                    <input class="inp-style" type="date" name="">
+                        <input class="inp-style" type="date" name="">
                 </div>
                 <div class="input-group">
                     <label for="">Return</label>
@@ -58,24 +60,28 @@
                 </div>
             </div>
             <div class="input-group f-class">
-                <button id="firstClassDecrease" type="button" class="btn btn-link"><i class="fas fa-minus"></i></button>
+                <button onclick="handleFirstClassTicketCost(false)" type="button" class="btn btn-link"><i
+                        class="fas fa-minus"></i></button>
                 <div>
                     <label for="">First Class ($150)</label>
-                    <input id="firstClassInput"  class="inp-style inp-width" type="number" value="1">
+                    <input id="firstClassInput" class="inp-style inp-width" type="number" value="1">
                 </div>
-                <button id="firstClassIncrease" type="button" class="btn btn-link"><i class="fas fa-plus"></i></button>
+                <button onclick="handleFirstClassTicketCost(true)" type="button" class="btn btn-link"><i
+                        class="fas fa-plus"></i></button>
             </div>
-            
+
             <div class="input-group f-class">
-                
-                <button id="economyClassDecrease" type="button" class="btn btn-link"><i class="fas fa-minus"></i></button>
+
+                <button onclick="handleEconomyTicketCost(false)" type="button" class="btn btn-link"><i
+                        class="fas fa-minus"></i></button>
                 <div>
                     <label for="">Economy ($100)</label>
                     <input id="economyClassInput" class="inp-style inp-width" type="number" value="1">
                 </div>
-                
-                <button id="economyClassIncrease" type="button" class="btn btn-link"><i class="fas fa-plus"></i></button>
-                
+
+                <button onclick="handleEconomyTicketCost(true)" type="button" class="btn btn-link"><i
+                        class="fas fa-plus"></i></button>
+
             </div>
             <div class="calculations">
                 <div class="amount">
@@ -105,79 +111,75 @@
                     </div>
                 </div>
             </div>
-            <button class="btn-style">Book Now</button>
+            <button id="booked-part" class="btn-style">Book Now</button>
+        </div>
+        <div id="congratulation-part">
+            <h1>Congratulation, Your ticket is booked</h1>
         </div>
     </main>
 
+    
     <script>
-        document.getElementById('firstClassIncrease').addEventListener('click',function(){
+        function handleFirstClassTicketCost(increase) {
             const firstClassInput = document.getElementById('firstClassInput');
             const firstClassCount = parseInt(firstClassInput.value);
-            
-            const firstClassNewCount = firstClassCount + 1;
+            let firstClassNewCount = firstClassCount;
+            if (increase == true) {
+                firstClassNewCount = firstClassCount + 1;
+            }
+            if (increase == false && firstClassCount > 0) {
+                firstClassNewCount = firstClassCount - 1;
+            }
             firstClassInput.value = firstClassNewCount;
             calculateTotal();
-        })
-        
 
-        document.getElementById('firstClassDecrease').addEventListener('click',function(){
-            const firstClassInput = document.getElementById('firstClassInput');
-            const firstClassCount = parseInt(firstClassInput.value);
-            const firstClassNewCount = firstClassCount - 1;
-            firstClassInput.value = firstClassNewCount;
+        }
+
+
+        function handleEconomyTicketCost(increase) {
+            const economyClassInput = document.getElementById('economyClassInput');
+            const economyClassCount = parseInt(economyClassInput.value);
+            let economyClassNewCount = economyClassCount;
+            if (increase == true) {
+                economyClassNewCount = economyClassCount + 1;
+            }
+            if (increase == false && economyClassCount > 0) {
+                economyClassNewCount = economyClassCount - 1;
+            }
+            economyClassInput.value = economyClassNewCount;
             calculateTotal();
-        })
 
-        document.getElementById('economyClassIncrease').addEventListener('click',function(){
-            const firstClassInput = document.getElementById('economyClassInput');
-            const firstClassCount = parseInt(firstClassInput.value);
-            const firstClassNewCount = firstClassCount + 1;
-            firstClassInput.value = firstClassNewCount;
-            calculateTotal()
-        })
-
-        document.getElementById('economyClassDecrease').addEventListener('click',function(){
-            const firstClassInput = document.getElementById('economyClassInput');
-            const firstClassCount = parseInt(firstClassInput.value);
-            const firstClassNewCount = firstClassCount - 1;
-            firstClassInput.value = firstClassNewCount;
-            calculateTotal()
-        })
+        }
 
 
-        
-        
-        
-        
-        
-        function calculateTotal(){
-            
+        function calculateTotal() {
             const firstClassTicketInput = document.getElementById('firstClassInput');
             const firstClassTicketCount = parseInt(firstClassTicketInput.value);
-            
-            
-            
+
             const economyClassTicketInput = document.getElementById('economyClassInput');
             const economyClassTicketCount = parseInt(economyClassTicketInput.value);
 
-            
             const SubtotalPrice = firstClassTicketCount * 150 + economyClassTicketCount * 100;
-            
-            
+
             document.getElementById('sub-total').innerText = '$' + SubtotalPrice;
-            
+
             const tax = SubtotalPrice * 0.1;
 
             document.getElementById('tax-amount').innerText = '$' + tax;
 
-            const totalPrice = SubtotalPrice+tax;
+            const totalPrice = SubtotalPrice + tax;
             document.getElementById('total').innerText = '$' + totalPrice;
 
-
-
-            
         }
+
         
+        document.getElementById('booked-part').addEventListener('click', function () {
+
+            var congratulationPart = document.getElementById('congratulation-part');
+            congratulationPart.style.display = 'block';
+
+        })
+
 
     </script>
 </body>
